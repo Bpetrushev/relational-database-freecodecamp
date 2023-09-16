@@ -1,3 +1,29 @@
+-- SUBTASKS
+-- You should create a database named universe
+-- Be sure to connect to your database with \c universe. Then, you should add tables named galaxy, star, planet, and moon
+-- Each table should have a primary key
+-- Each primary key should automatically increment
+-- Each table should have a name column
+-- You should use the INT data type for at least two columns that are not a primary or foreign key
+-- You should use the NUMERIC data type at least once
+-- You should use the TEXT data type at least once
+-- You should use the BOOLEAN data type on at least two columns
+-- Each "star" should have a foreign key that references one of the rows in galaxy
+-- Each "planet" should have a foreign key that references one of the rows in star
+-- Each "moon" should have a foreign key that references one of the rows in planet
+-- Your database should have at least five tables
+-- Each table should have at least three rows
+-- The galaxy and star tables should each have at least six rows
+-- The planet table should have at least 12 rows
+-- The moon table should have at least 20 rows
+-- Each table should have at least three columns
+-- The galaxy, star, planet, and moon tables should each have at least five columns
+-- At least two columns per table should not accept NULL values
+-- At least one column from each table should be required to be UNIQUE
+-- All columns named name should be of type VARCHAR
+-- Each primary key column should follow the naming convention table_name_id. For example, the moon table should have a primary key column named moon_id
+-- Each foreign key column should have the same name as the column it is referencing
+
 CREATE DATABASE universe;
 
 \c universe;
@@ -17,11 +43,11 @@ CREATE TABLE star (
     star_id serial PRIMARY KEY,
     name VARCHAR(150) NOT NULL UNIQUE,
     type VARCHAR(100),
-    mass NUMERIC(10, 2),
-    luminosity NUMERIC(10, 2),
+    mass DOUBLE PRECISION,
+    luminosity DOUBLE PRECISION,
     galaxy_id INT REFERENCES galaxy(galaxy_id),
     is_binary_star BOOLEAN NOT NULL,
-    age_in_millions INT NOT NULL,
+    age_in_millions INT NOT NULL
 );
 
 CREATE TABLE planet (
@@ -44,10 +70,10 @@ CREATE TABLE moon (
 
 CREATE TABLE comet (
     comet_id serial PRIMARY KEY,
-    name VARCHAR(150) NOT NULL UNIQUE,  -- Added UNIQUE constraint
+    name VARCHAR(150) NOT NULL UNIQUE,
     discovered_by VARCHAR(150),
     discovery_year NUMERIC(4, 0),
-    is_periodic BOOLEAN NOT NULL,  -- Added NOT NULL constraint
+    is_periodic BOOLEAN NOT NULL,
     description TEXT
 );
 
@@ -60,14 +86,14 @@ VALUES
     ('Whirlpool Galaxy', 31, 'Canes Venatici', 1773, FALSE, 300, 'Interacting spiral galaxy pair'),
     ('Centaurus A', 13, 'Centaurus', 1826, TRUE, 200, 'Active galaxy with a prominent dark band');
 
-INSERT INTO star (name, type, mass, luminosity, galaxy_id, is_binary_star, age_in_millions, description)
+INSERT INTO star (name, type, mass, luminosity, galaxy_id, is_binary_star, age_in_millions)
 VALUES
-    ('Sun', 'G-type main-sequence', 1.989e30, 3.827e26, 1, FALSE, 4600, 'Our star'),
-    ('Alpha Centauri A', 'G-type main-sequence', 2.18e30, 4.84e26, 1, TRUE, 6600, 'Closest star system to Sun'),
-    ('Proxima Centauri', 'M-type red dwarf', 2.83e29, 8.5e22, 1, FALSE, 500, 'Nearest known star to the Sun'),
-    ('Sirius', 'A-type main-sequence', 2.02e30, 6.12e28, 1, FALSE, 200, 'Brightest star in the night sky'),
-    ('Betelgeuse', 'M-type supergiant', 1.47e32, 1.21e31, 1, FALSE, 800, 'Red supergiant in Orion'),
-    ('Vega', 'A-type main-sequence', 2.12e30, 5.42e28, 1, FALSE, 450, 'Bright star in the summer sky');
+    ('Sun', 'G-type main-sequence', 1.989e30, 3.827e26, 1, FALSE, 4600),
+    ('Alpha Centauri A', 'G-type main-sequence', 2.18e30, 4.84e26, 1, TRUE, 6600),
+    ('Proxima Centauri', 'M-type red dwarf', 2.83e29, 8.5e22, 1, FALSE, 500),
+    ('Sirius', 'A-type main-sequence', 2.02e30, 6.12e28, 1, FALSE, 200),
+    ('Betelgeuse', 'M-type supergiant', 1.47e32, 1.21e31, 1, FALSE, 800),
+    ('Vega', 'A-type main-sequence', 2.12e30, 5.42e28, 1, FALSE, 450);
 
 INSERT INTO planet (name, star_id, has_atmosphere, orbital_period_days, description)
 VALUES
@@ -86,7 +112,7 @@ VALUES
 
 INSERT INTO moon (name, planet_id, is_in_habitable_zone, diameter_km, description)
 VALUES
-    ('Moon', 1, TRUE, 3474.8, 'Earth\'s natural satellite'),
+    ('Moon', 1, TRUE, 3474.8, 'Earth''s natural satellite'),
     ('Phobos', 2, FALSE, 22.4, 'Larger moon of Mars'),
     ('Deimos', 2, FALSE, 12.4, 'Smaller moon of Mars'),
     ('Ganymede', 3, FALSE, 5262, 'Largest moon in the solar system'),
@@ -123,12 +149,3 @@ VALUES
     ('Comet 1P/Halley', 'Edmund Halley', 1682, TRUE, 'Historical comet with a well-known orbit'),
     ('Comet Tempel-Tuttle', 'Ernst Wilhelm Tempel and Horace Parnell Tuttle', 1865, TRUE, 'Parent comet of the Leonid meteor shower'),
     ('Comet 81P/Wild', 'Paul Wild', 1978, TRUE, 'Comet visited by the Stardust spacecraft');
-
--- SUBTASKS
--- Your database should have at least five tables
--- Each table should have at least three rows
--- The galaxy and star tables should each have at least six rows
--- At least one column from each table should be required to be UNIQUE
--- All columns named name should be of type VARCHAR
--- Each primary key column should follow the naming convention table_name_id. For example, the moon table should have a primary key column named moon_id
--- Each foreign key column should have the same name as the column it is referencing
